@@ -64,7 +64,7 @@
             android:id="@+id/txtstart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
             android:text="0:00"
             android:textColor="#FFF"
             android:layout_below="@+id/seekbar">
@@ -76,8 +76,8 @@
             android:text="4:00"
             android:textColor="#FFF"
             android:layout_below="@id/seekbar"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="13dp">
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="13dp">
         </TextView>
         <ImageButton
             android:id="@+id/implay"
@@ -86,17 +86,17 @@
             android:layout_below="@id/seekbar"
             android:layout_centerInParent="true"
             android:layout_marginTop="30dp"
-            android:background="@drawable/ic_baseline_pause_24">
+            android:background="@drawable/ic_baseline_play_arrow_24">
         </ImageButton>
         <ImageButton
             android:id="@+id/imff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_fast_forward_"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/seekbar"
             android:layout_marginTop="30dp"
-            android:layout_marginRight="80dp"
+            android:layout_marginEnd="80dp"
             >
         </ImageButton>
         <ImageButton
@@ -106,7 +106,7 @@
             android:background="@drawable/ic_fast_rewind"
             android:layout_below="@+id/seekbar"
             android:layout_marginTop="30dp"
-            android:layout_marginLeft="80dp">
+            android:layout_marginStart="80dp">
         </ImageButton>
         <ImageButton
             android:id="@+id/imshuffle"
@@ -115,18 +115,18 @@
             android:background="@drawable/ic_shuffle"
             android:layout_below="@+id/seekbar"
             android:layout_marginTop="40dp"
-            android:layout_marginLeft="12dp">
+            android:layout_marginStart="12dp">
         </ImageButton>
         <ImageButton
             android:id="@+id/imrepeat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_repeat"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@id/seekbar"
             android:layout_marginTop="40dp"
-            android:layout_marginRight="13dp">
+            android:layout_marginEnd="13dp">
         </ImageButton>
-
+            
     </RelativeLayout>
 </LinearLayout>

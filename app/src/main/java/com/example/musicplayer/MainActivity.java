@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -88,5 +91,15 @@ public class MainActivity extends AppCompatActivity {
         }
         ItemAdapter mItemAdapter = new ItemAdapter(this,items);
         listView.setAdapter(mItemAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String songName = (String) listView.getItemAtPosition(position);
+                startActivity(new Intent(getApplicationContext(),PlayerActivity.class)
+                .putExtra("songs",songsFound)
+                .putExtra("songName",songName)
+                .putExtra("position",position));
+            }
+        });
     }
 }
