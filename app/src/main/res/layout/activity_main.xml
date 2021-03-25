@@ -9,6 +9,7 @@
 
     <ListView
         android:id="@+id/lvsongs"
+        android:background="@drawable/list_bg"
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp"
         android:padding="8dp"
