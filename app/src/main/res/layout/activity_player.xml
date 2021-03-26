@@ -112,7 +112,7 @@
             android:id="@+id/imshuffle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_shuffle"
+            android:background="@drawable/ic_shuffle_off"
             android:layout_below="@+id/seekbar"
             android:layout_marginTop="40dp"
             android:layout_marginLeft="12dp">
@@ -121,7 +121,7 @@
             android:id="@+id/imrepeat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_repeat"
+            android:background="@drawable/ic_baseline_repeat_one_24"
             android:layout_alignParentRight="true"
             android:layout_below="@id/seekbar"
             android:layout_marginTop="40dp"

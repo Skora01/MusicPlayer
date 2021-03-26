@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class PlayerActivity extends AppCompatActivity {
     ImageButton implay, imff, imfr, imshuffle, imrepeat;
@@ -26,6 +27,7 @@ public class PlayerActivity extends AppCompatActivity {
     ArrayList<File> songs;
     int position;
     Thread threadSeekBar;
+    boolean isShuffleOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,23 @@ public class PlayerActivity extends AppCompatActivity {
         txtstart = (TextView) findViewById(R.id.txtstart);
         txtend = (TextView) findViewById(R.id.txtend);
         seekBar = (SeekBar) findViewById(R.id.seekbar);
+        Random rand = new Random();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
+        songs = (ArrayList) bundle.getParcelableArrayList("songs");
+        String sname = bundle.getString("songName");
+        position = bundle.getInt("position", 0);
+        txtsong.setSelected(true);
+        Uri uri = Uri.parse(songs.get(position).toString());
+        songName = songs.get(position).getName();
+        txtsong.setText(songName);
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+        mediaPlayer.start();
         threadSeekBar = new Thread()
         {
             @Override
@@ -52,7 +71,7 @@ public class PlayerActivity extends AppCompatActivity {
                         sleep(500);
                         currentPosition = mediaPlayer.getCurrentPosition();
                         seekBar.setProgress(currentPosition);
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException | IllegalStateException e) {
                         e.printStackTrace();
                     }
                 }
@@ -90,22 +109,6 @@ public class PlayerActivity extends AppCompatActivity {
             }
         });
 
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-        }
-        Intent i = getIntent();
-        Bundle bundle = i.getExtras();
-        songs = (ArrayList) bundle.getParcelableArrayList("songs");
-        String sname = bundle.getString("songName");
-        position = bundle.getInt("position", 0);
-        txtsong.setSelected(true);
-        Uri uri = Uri.parse(songs.get(position).toString());
-        songName = songs.get(position).getName();
-        txtsong.setText(songName);
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-        mediaPlayer.start();
-
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
@@ -131,7 +134,14 @@ public class PlayerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mediaPlayer.stop();
                 mediaPlayer.release();
-                position = (position + 1) % songs.size();
+                mediaPlayer = null;
+                if(isShuffleOn)
+                {
+                    position = rand.nextInt(songs.size());
+                }
+                else {
+                    position = (position + 1) % songs.size();
+                }
                 Uri updatedUri = Uri.parse(songs.get(position).toString());
                 songName = songs.get(position).getName();
                 txtsong.setText(songName);
@@ -146,6 +156,7 @@ public class PlayerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mediaPlayer.stop();
                 mediaPlayer.release();
+                mediaPlayer = null;
                 position = ((position - 1) < 0) ? (songs.size() - 1) : (position - 1);
                 Uri updatedUri = Uri.parse(songs.get(position).toString());
                 songName = songs.get(position).getName();
@@ -153,6 +164,37 @@ public class PlayerActivity extends AppCompatActivity {
                 mediaPlayer = MediaPlayer.create(getApplicationContext(),updatedUri);
                 mediaPlayer.start();
                 implay.setBackgroundResource(R.drawable.ic_baseline_pause_24);
+            }
+        });
+
+        imshuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isShuffleOn)
+                {
+                    isShuffleOn = false;
+                    imshuffle.setBackgroundResource(R.drawable.ic_shuffle_off);
+                }
+                else
+                {
+                    isShuffleOn = true;
+                    imshuffle.setBackgroundResource(R.drawable.ic_shuffle);
+                }
+            }
+        });
+        imrepeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mediaPlayer.isLooping())
+                {
+                    mediaPlayer.setLooping(false);
+                    imrepeat.setBackgroundResource(R.drawable.ic_baseline_repeat_one_24);
+                }
+                else
+                {
+                    mediaPlayer.setLooping(true);
+                    imrepeat.setBackgroundResource(R.drawable.ic_baseline_repeat_one_on_24);
+                }
             }
         });
     }
